@@ -42,6 +42,17 @@ class Singly_Linked_List(object):
             self.head = temp
             self.size += 1
 
+    # # find node
+    def find_node(self, d):
+        if self.head.get_data() == d:
+            return self.head
+        else:
+            if self.head.get_next():
+                self.find_node(self.get_head().get_next())
+
+    # append new node to end of linked list
+    # remove node
+
 # test ssl
 class Test_ssl_with_test(test.TestCase):
     def test_new_ssl(self):
@@ -56,6 +67,15 @@ class Test_ssl_with_test(test.TestCase):
         self.assertEqual(result.get_size(), 1)
         self.assertEqual(result.get_head().get_data(), 1)
         self.assertIsNone(result.get_head().get_next())
+
+    def test_find_node(self):
+        mySll = Singly_Linked_List()
+        mySll.prepend_node(1)
+        mySll.prepend_node(3)
+        result = mySll.find_node(3)
+        self.assertEqual(result.get_data(), 3)
+        self.assertEqual(result.get_next().get_data(), 1)
+        self.assertIsNone(result.get_next().get_next())
 
 # run test
 if __name__ == '__main__':
