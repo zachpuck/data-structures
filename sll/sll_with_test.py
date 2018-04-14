@@ -67,6 +67,32 @@ class Singly_Linked_List(object):
             self.append_node(current_node, d)
             
     # remove node
+    def remove_node(self, n, d, p = None):
+        current_node = n
+        previous_node = p
+
+        if current_node.get_data() == d:
+            if previous_node is None:
+                if current_node.get_next():
+                    current_node = current_node.get_next()
+                    return True
+                else:
+                    current_node = None
+                    return True
+            else:
+                if current_node.get_next():
+                    previous_node.set_next(current_node.get_next())
+                    return True
+                else:
+                    previous_node.set_next(None)
+                    return True
+        else:
+            if current_node.get_next():
+                previous_node = current_node
+                current_node = current_node.get_next()
+                return self.remove_node(current_node, d, previous_node)
+            else:
+                return False
 
 # test ssl
 class Test_ssl_with_test(test.TestCase):
@@ -103,14 +129,16 @@ class Test_ssl_with_test(test.TestCase):
         self.assertEqual(result.get_data(), 6)
         self.assertIsNone(result.get_next())
 
-    #TODO: test append_node with many more items in node
+    def test_remove_node(self):
+        mySll = Singly_Linked_List()
+        mySll.prepend_node(1)
+        mySll.prepend_node(3)
+        mySll.prepend_node(10)
+        mySll.prepend_node(5)
+        result = mySll.remove_node(mySll.get_head(), 10)
+        self.assertIsNone(mySll.find_node(mySll.get_head(), 10))
+        self.assertTrue(result)
 
 # run test
 if __name__ == '__main__':
     test.main()
-
-# mySLL = Singly_Linked_List()
-# mySLL.prepend_node(15)
-# mySLL.prepend_node(3)
-# current_node = mySLL.get_head().get_next()
-# print(current_node.get_data())
