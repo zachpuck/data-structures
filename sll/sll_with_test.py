@@ -75,16 +75,20 @@ class Singly_Linked_List(object):
             if previous_node is None:
                 if current_node.get_next():
                     current_node = current_node.get_next()
+                    self.size -= 1
                     return True
                 else:
                     current_node = None
+                    self.size = 0
                     return True
             else:
                 if current_node.get_next():
                     previous_node.set_next(current_node.get_next())
+                    self.size -= 1
                     return True
                 else:
                     previous_node.set_next(None)
+                    self.size -= 1
                     return True
         else:
             if current_node.get_next():
