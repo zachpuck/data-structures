@@ -33,28 +33,44 @@ class Singly_Linked_List(object):
 
     # add new node at beginning
     def prepend_node(self, d):
-        if not self.head:
+        if self.head is None:
             self.head = Node(d)
             self.size += 1
         else:
-            temp = Node(d)
-            temp.set_next(self.head)
-            self.head = temp
+            new_node = Node(d)
+            new_node.set_next(self.head)
+            self.head = new_node
             self.size += 1
 
     # # find node
-    def find_node(self, d):
-        if self.head.get_data() == d:
-            return self.head
+    def find_node(self, n, d):
+        current_node = n
+
+        if current_node.get_data() == d:
+            return current_node
         else:
-            if self.head.get_next():
-                self.find_node(self.get_head().get_next())
+            if current_node.get_next():
+                current_node = current_node.get_next()
+                return self.find_node(current_node, d)
+
 
     # append new node to end of linked list
+    def append_node(self, n, d):
+        current_node = n
+
+        if current_node.get_next() is None:
+            new_node = Node(d)
+            current_node.set_next(new_node)
+            self.size += 1
+        else:
+            current_node = current_node.get_next()
+            self.append_node(current_node, d)
+            
     # remove node
 
 # test ssl
 class Test_ssl_with_test(test.TestCase):
+
     def test_new_ssl(self):
         result = Singly_Linked_List()
         self.assertIsNone(result.get_head())
@@ -71,11 +87,23 @@ class Test_ssl_with_test(test.TestCase):
     def test_find_node(self):
         mySll = Singly_Linked_List()
         mySll.prepend_node(1)
+        mySll.prepend_node(5)
         mySll.prepend_node(3)
-        result = mySll.find_node(3)
+        mySll.prepend_node(10)
+        result = mySll.find_node(mySll.get_head(), 3)
         self.assertEqual(result.get_data(), 3)
-        self.assertEqual(result.get_next().get_data(), 1)
-        self.assertIsNone(result.get_next().get_next())
+
+    def test_append_node(self):
+        mySll = Singly_Linked_List()
+        mySll.prepend_node(1)
+        mySll.prepend_node(3)
+        mySll.append_node(mySll.get_head(), 6)
+        result = mySll.find_node(mySll.get_head(), 6)
+        self.assertEqual(mySll.get_head().get_data(), 3)
+        self.assertEqual(result.get_data(), 6)
+        self.assertIsNone(result.get_next())
+
+    #TODO: test append_node with many more items in node
 
 # run test
 if __name__ == '__main__':
