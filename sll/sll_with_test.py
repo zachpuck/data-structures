@@ -98,7 +98,32 @@ class Singly_Linked_List(object):
             else:
                 return False
 
-# test ssl
+    # reverse link list
+    def reverse_list(self, c, p = None):
+        current_node = c
+        previous_node = p
+
+        if current_node.get_next() is None:
+            if previous_node is not None:
+                self.set_head(current_node)
+                current_node.set_next(previous_node)
+            else:
+                self.set_head(current_node)
+                current_node.set_next(None)
+        else:
+            if previous_node is not None:
+                temp_current, temp_previous = current_node.get_next(), current_node
+                current_node.set_next(previous_node)
+                self.reverse_list(temp_current, temp_previous)
+            else:
+                temp_current, temp_previous = current_node.get_next(), current_node
+                current_node.set_next(None)
+                self.remove_node(temp_current, temp_previous)
+
+    # TODO: insert at nth position or nth position from the end
+
+
+# test sll
 class Test_ssl_with_test(test.TestCase):
 
     def test_new_ssl(self):
@@ -142,6 +167,17 @@ class Test_ssl_with_test(test.TestCase):
         result = mySll.remove_node(mySll.get_head(), 10)
         self.assertIsNone(mySll.find_node(mySll.get_head(), 10))
         self.assertTrue(result)
+
+    def test_reverse_list(self):
+        mySll = Singly_Linked_List()
+        mySll.prepend_node(1)
+        mySll.prepend_node(3)
+        mySll.prepend_node(10)
+        mySll.prepend_node(5)
+        mySll.reverse_list(mySll.get_head())
+        result = mySll.find_node(mySll.get_head(), 5)
+        self.assertIsNone(result.get_next())
+        # self.assertEqual(mySll.get_head().get_data(), 1)
 
 # run test
 if __name__ == '__main__':
