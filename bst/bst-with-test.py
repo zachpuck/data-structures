@@ -45,34 +45,58 @@ class BST(object):
                     self.insert_node(current_node.get_right(), d)
                 else:
                     current_node.set_right(d)
+    
+    # find node
+    def find_data(self, c, d):
+        current_node = c
+        result = None
+
+        if current_node.get_data() == d:
+            result = current_node.get_data()
+        else:
+            if current_node.get_data() > d:
+                if current_node.get_left() is not None:
+                    result = self.find_data(current_node.get_left(), d)
+            else:
+                if current_node.get_right() is not None:
+                    result = self.find_data(current_node.get_right(), d)
+        
+        return result
+
+
 
 # tests
 class test_bst(test.TestCase):
-    def test_new_bst(self):
+    
+    def test_bst(self):
         result = BST()
+
+        # test empty bst
         self.assertIsNone(result.get_root())
 
-    def test_insert_first_node(self):
-        result = BST()
-        result.insert_node(result.get_root(), 10)
+        # test insert first node
+        result.insert_node(result.get_root(), 15)
         self.assertIsNotNone(result.get_root())
-        self.assertEqual(result.get_root().get_data(), 10)
+        self.assertEqual(result.get_root().get_data(), 15)
         self.assertIsNone(result.get_root().get_left())
         self.assertIsNone(result.get_root().get_right())
 
-    def test_insert_multiple_node(self):
-        result = BST()
-        result.insert_node(result.get_root(), 15)
+        # test insert more nodes
         result.insert_node(result.get_root(), 5)
         result.insert_node(result.get_root(), 10)
         result.insert_node(result.get_root(), 25)
         result.insert_node(result.get_root(), 20)
+        result.insert_node(result.get_root(), 30)
         self.assertIsNotNone(result.get_root())
         self.assertEqual(result.get_root().get_data(), 15)
         self.assertIsNotNone(result.get_root().get_left())
         self.assertIsNotNone(result.get_root().get_right())
         self.assertEqual(result.get_root().get_left().get_data(), 5)
         self.assertEqual(result.get_root().get_right().get_data(), 25)
+
+        # find node:
+        self.assertIsNone(result.find_data(result.get_root(), 2))
+        self.assertEqual(result.find_data(result.get_root(), 30), 30)
 
 # run default
 if __name__ == '__main__':
