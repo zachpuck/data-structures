@@ -89,7 +89,15 @@ class BST(object):
 
         return result
 
-    # find height of bst
+    # find height of bst by counting edges
+    def find_height(self, c):
+        current_node = c
+
+        if current_node is None:
+            return -1   # alternative would be to count nodes, in this case return 0 for None node
+
+        return max(self.find_height(current_node.get_left()), self.find_height(current_node.get_right())) + 1
+
     # breath vs depth first
     # level order traversal
     # preorder, inorder, postorder
@@ -136,6 +144,10 @@ class test_bst(test.TestCase):
 
         # find max:
         self.assertEqual(result.find_max(result.get_root()), 25)
+
+        # find height:
+        self.assertEqual(result.find_height(result.get_root()), 2)
+
 
 # run default
 if __name__ == '__main__':
