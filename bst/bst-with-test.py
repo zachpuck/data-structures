@@ -62,19 +62,33 @@ class BST(object):
                     result = self.find_data(current_node.get_right(), d)
         return result
 
-    # find min
-    def find_min(self, c, result = 100):
+    # find max
+    def find_max(self, c, result = 0):
         current_node = c
+
+        if current_node.get_data():
+            if current_node.get_data() > result:
+                result = current_node.get_data()
+                if current_node.get_right():
+                    result = self.find_max(current_node.get_right(), result)
+        
+        return result
+
+    # find min
+    def find_min(self, c, result = None):
+        current_node = c
+
+        if result is None:
+            result = current_node.get_data() + 1
 
         if current_node.get_data():
             if current_node.get_data() < result:
                 result = current_node.get_data()
                 if current_node.get_left():
                     result = self.find_min(current_node.get_left(), result)
-        
+
         return result
 
-    # find max
     # find height of bst
     # breath vs depth first
     # level order traversal
@@ -119,6 +133,9 @@ class test_bst(test.TestCase):
 
         # find min:
         self.assertEqual(result.find_min(result.get_root()), 8)
+
+        # find max:
+        self.assertEqual(result.find_max(result.get_root()), 25)
 
 # run default
 if __name__ == '__main__':
