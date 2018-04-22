@@ -79,10 +79,10 @@ class BST(object):
         current_node = c
 
         if result is None:
-            result = current_node.get_data() + 1
+            result = current_node.get_data()
 
         if current_node.get_data():
-            if current_node.get_data() < result:
+            if current_node.get_data() <= result:
                 result = current_node.get_data()
                 if current_node.get_left():
                     result = self.find_min(current_node.get_left(), result)
@@ -99,6 +99,7 @@ class BST(object):
         return max(self.find_height(current_node.get_left()), self.find_height(current_node.get_right())) + 1
 
     # breath vs depth first
+    
     # level order traversal
     # preorder, inorder, postorder
     # check if binary tree is bst or not
