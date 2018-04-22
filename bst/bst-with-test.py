@@ -60,10 +60,28 @@ class BST(object):
             else:
                 if current_node.get_right() is not None:
                     result = self.find_data(current_node.get_right(), d)
+        return result
+
+    # find min
+    def find_min(self, c, result = 100):
+        current_node = c
+
+        if current_node.get_data():
+            if current_node.get_data() < result:
+                result = current_node.get_data()
+                if current_node.get_left():
+                    result = self.find_min(current_node.get_left(), result)
         
         return result
 
-
+    # find max
+    # find height of bst
+    # breath vs depth first
+    # level order traversal
+    # preorder, inorder, postorder
+    # check if binary tree is bst or not
+    # delete node from bst
+    # inorder successor in a bst
 
 # tests
 class test_bst(test.TestCase):
@@ -82,21 +100,25 @@ class test_bst(test.TestCase):
         self.assertIsNone(result.get_root().get_right())
 
         # test insert more nodes
-        result.insert_node(result.get_root(), 5)
         result.insert_node(result.get_root(), 10)
-        result.insert_node(result.get_root(), 25)
         result.insert_node(result.get_root(), 20)
-        result.insert_node(result.get_root(), 30)
+        result.insert_node(result.get_root(), 8)
+        result.insert_node(result.get_root(), 12)
+        result.insert_node(result.get_root(), 17)
+        result.insert_node(result.get_root(), 25)
         self.assertIsNotNone(result.get_root())
         self.assertEqual(result.get_root().get_data(), 15)
         self.assertIsNotNone(result.get_root().get_left())
         self.assertIsNotNone(result.get_root().get_right())
-        self.assertEqual(result.get_root().get_left().get_data(), 5)
-        self.assertEqual(result.get_root().get_right().get_data(), 25)
+        self.assertEqual(result.get_root().get_left().get_data(), 10)
+        self.assertEqual(result.get_root().get_right().get_data(), 20)
 
-        # find node:
+        # find data:
         self.assertIsNone(result.find_data(result.get_root(), 2))
-        self.assertEqual(result.find_data(result.get_root(), 30), 30)
+        self.assertEqual(result.find_data(result.get_root(), 25), 25)
+
+        # find min:
+        self.assertEqual(result.find_min(result.get_root()), 8)
 
 # run default
 if __name__ == '__main__':
