@@ -55,16 +55,18 @@ class Singly_Linked_List(object):
 
 
     # append new node to end of linked list
-    def append_node(self, n, d):
+    def append_node(self, d, n = None):
         current_node = n
-
-        if current_node.get_next() is None:
-            new_node = Node(d)
-            current_node.set_next(new_node)
-            self.size += 1
+        if current_node is None:
+            self.set_head(Node(d))
         else:
-            current_node = current_node.get_next()
-            self.append_node(current_node, d)
+            if current_node.get_next() is None:
+                new_node = Node(d)
+                current_node.set_next(new_node)
+                self.size += 1
+            else:
+                current_node = current_node.get_next()
+                self.append_node(d, current_node)
             
     # remove node
     def remove_node(self, n, d, p = None):
@@ -124,9 +126,9 @@ class Singly_Linked_List(object):
 
 
 # test sll
-class Test_ssl_with_test(test.TestCase):
+class Test_sll_with_test(test.TestCase):
 
-    def test_new_ssl(self):
+    def test_new_sll(self):
         result = Singly_Linked_List()
         self.assertIsNone(result.get_head())
         self.assertEqual(result.get_size(), 0)
@@ -152,7 +154,7 @@ class Test_ssl_with_test(test.TestCase):
         mySll = Singly_Linked_List()
         mySll.prepend_node(1)
         mySll.prepend_node(3)
-        mySll.append_node(mySll.get_head(), 6)
+        mySll.append_node(6, mySll.get_head())
         result = mySll.find_node(mySll.get_head(), 6)
         self.assertEqual(mySll.get_head().get_data(), 3)
         self.assertEqual(result.get_data(), 6)
